@@ -4,10 +4,10 @@
     <!-- Basic Page Needs
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <title>vCardLib Documentation</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="description" content="documentation for vCardLib">
     <meta name="author" content="Bolorunduro Winner-Timothy">
-    
+
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,58 +33,69 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
-  <div class="container">
+<div class="container">
     <section class="header">
-      <h1 class="title">vCardLib Documentation</h1>
+        <h1 class="title">vCardLib Documentation</h1>
     </section>
-    
+
     <br>
     <strong>In v2.2.0 breaking changes have been introduced (for good reason). See the v2.2.0 changelog</strong>
     <br><br>
 
-    <p>vCardLib is a .NET library written entirely in C#. It is designed to enable developers read contacts stored in a vCard file (*.vcf or *.vcard). As at today (15th March 2017), the latest version of the library (v2.2.0) supports vCard files of version <strong>2.1 and 3.0 only.</strong> The library has its classes under the root namespace <code>vCardLib</code>. The class 'vCard.Deserializers' has a class  <code>Deserializer</code> which has static methods <code>FromFile</code> and <code>FromStreamReader</code> which as their names imply allow you extract contacts from a file and a <code>StreamReader</code> object respectively.</p>
+    <p>vCardLib is a .NET library written entirely in C#. It is designed to enable developers read contacts stored in a
+        vCard file (*.vcf or *.vcard). As at today (15th March 2017), the latest version of the library (v2.2.0)
+        supports vCard files of version <strong>2.1 and 3.0 only.</strong> The library has its classes under the root
+        namespace <code>vCardLib</code>. The class 'vCard.Deserializers' has a class <code>Deserializer</code> which has
+        static methods <code>FromFile</code> and <code>FromStreamReader</code> which as their names imply allow you
+        extract contacts from a file and a <code>StreamReader</code> object respectively.</p>
 
-    <p>The <code>FromFile</code> and <code>FromStreamReader</code> methods return a <code>vCardCollection</code> object which inherits from <code>CollectionBase</code>. The <code>vCardCollection</code> object implements <code>IEnumerable</code> and can be iterated over using the <code>foreach</code> operator. Each object is of the <code>vCard</code> type from which properties can be read.</p>
+    <p>The <code>FromFile</code> and <code>FromStreamReader</code> methods return a <code>vCardCollection</code> object
+        which inherits from <code>CollectionBase</code>. The <code>vCardCollection</code> object implements <code>IEnumerable</code>
+        and can be iterated over using the <code>foreach</code> operator. Each object is of the <code>vCard</code> type
+        from which properties can be read.</p>
     <br/>
     <div class="centralize">
-      <a class="button button-primary" href="http://www.nuget.org/packages/vCardLib.dll">Nuget</a>
-      <a class="button" href="https://github.com/bolorundurowb/VCF-Reader">Source</a>
+        <a class="button button-primary" href="http://www.nuget.org/packages/vCardLib.dll">Nuget</a>
+        <a class="button" href="https://github.com/bolorundurowb/VCF-Reader">Source</a>
     </div>
 
-    <br />
+    <br/>
     <h3>How to use the library</h3>
     <p>
-      To install this library from Nuget you can click the "Nuget" button above. If you want to install it via the Package Manager, you can run the command:
-      <br>
-      <code>Install-Package vCardLib.dll</code>
-      <br>
-      <h4>To read contacts</h4>
-      To make the deserialization methods and classes of the library available, add this at the top of your <em>*.cs</em> file:
-      <br>
-      <pre>
+        To install this library from Nuget you can click the "Nuget" button above. If you want to install it via the
+        Package Manager, you can run the command:
+        <br>
+        <code>Install-Package vCardLib.dll</code>
+        <br>
+    <h4>To read contacts</h4>
+    To make the deserialization methods and classes of the library available, add this at the top of your <em>*.cs</em>
+    file:
+    <br>
+    <pre>
         <code class="language-csharp">
           using vCardLib;
           using vCardLib.Deserializers;
           using vCardLib.Collections;
         </code>
-      </pre>      
-      <br>
-      In your class you call the static method <code>Deserializer.FromFile</code> and pass a string containing the path to a <em>vcf</em> or <em>vcard</em> file to it:
-      <pre>
+      </pre>
+    <br>
+    In your class you call the static method <code>Deserializer.FromFile</code> and pass a string containing the path to
+    a <em>vcf</em> or <em>vcard</em> file to it:
+    <pre>
         <code class="language-csharp">
           string filePath = //path to vcf or vcard file;
           vCardCollection contacts = Deserializer.FromFile(filePath);
         </code>
       </pre>
-      Or pass a StreamReader object to it:
-      <pre>
+    Or pass a StreamReader object to it:
+    <pre>
         <code class="language-csharp">
           StreamReader sr = //generate a streamreader somehow;
           vCardCollection contacts = Deserializer.FromStreamReader(sr);
         </code>
       </pre>
-      Iterate over the collection and pick the vCard objects:
-      <pre>
+    Iterate over the collection and pick the vCard objects:
+    <pre>
         <code class="language-csharp">
           foreach(vCard contact in contacts)
           {
@@ -94,21 +105,25 @@
       </pre>
 
 
-      <br>
-      <h4>To write/save contacts</h4>
-      To make the serialization methods and classes of the library available, add this at the top of your <em>*.cs</em> file:
-      <br>
-      <pre>
+    <br>
+    <h4>To write/save contacts</h4>
+    To make the serialization methods and classes of the library available, add this at the top of your <em>*.cs</em>
+    file:
+    <br>
+    <pre>
         <code class="language-csharp">
           using vCardLib;
           using vCardLib.Serializers;
           using vCardLib.Collections;
           using vCardLib.Helpers;
         </code>
-      </pre>      
-      <br>
-      In your class you call the static method <code>Serializer.Serialize</code> and pass a non-null vCard object, a string containing the path to a <em>vcf</em> or <em>vcard</em> file, a <code>Version</code> version indicating in what format the vcard should be serialized  and optionally a <code>WriteOptions</code> option telling the method whether to overwrite if the file exists to it:
-      <pre>
+      </pre>
+    <br>
+    In your class you call the static method <code>Serializer.Serialize</code> and pass a non-null vCard object, a
+    string containing the path to a <em>vcf</em> or <em>vcard</em> file, a <code>Version</code> version indicating in
+    what format the vcard should be serialized and optionally a <code>WriteOptions</code> option telling the method
+    whether to overwrite if the file exists to it:
+    <pre>
         <code class="language-csharp">
           string filePath = //path to vcf or vcard file that you want created or overwritten;
           vCard vcard = //create one somehow;
@@ -124,8 +139,8 @@
           }
         </code>
       </pre>
-      Or serialize a  <code>vCardCollection</code> object:
-      <pre>
+    Or serialize a <code>vCardCollection</code> object:
+    <pre>
         <code class="language-csharp">
           string filePath = //path to vcf or vcard file that you want created or overwritten;
           vCardCollection collection = new vCardCollection();
@@ -145,60 +160,65 @@
     </p>
 
     <div class="header">
-      <h2>Library Version Changelogs</h2>
+        <h2>Library Version Changelogs</h2>
     </div>
 
     <h4>Library Version 2.2.1</h4>
     <p>
-      v2.2.1 was written with performance and resource usage a major priority. String handling was particularly dealt with in the most resource safe way. Also one new property was added, <code>NOTE</code> property is now supported.
-      <ol>
+        v2.2.1 was written with performance and resource usage a major priority. String handling was particularly dealt
+        with in the most resource safe way. Also one new property was added, <code>NOTE</code> property is now
+        supported.
+    <ol>
         <li>Note: string</li>
-      </ol>
+    </ol>
     </p>
 
     <h4>Library Version 2.2.0</h4>
     <p>
-      With the release of version 2.2.0 of this library,  few properties were added and some breaking changes were introduced. The following properties were removed:
-      <ol>
+        With the release of version 2.2.0 of this library, few properties were added and some breaking changes were
+        introduced. The following properties were removed:
+    <ol>
         <li>Surname: string</li>
         <li>Middlename: string</li>
         <li>Firstname: string</li>
-      </ol>
-      To be replaced with these in order to keep conformance with the RFC spec:
-      <ol>        
+    </ol>
+    To be replaced with these in order to keep conformance with the RFC spec:
+    <ol>
         <li>FamilyName: string</li>
         <li>GivenName: string</li>
         <li>MiddleName: string</li>
         <li>Prefix: string</li>
         <li>Suffix: string</li>
-      </ol>
-      The <code>URL</code> property was renamed to <code>Url</code> to conform with C# naming conventions.
+    </ol>
+    The <code>URL</code> property was renamed to <code>Url</code> to conform with C# naming conventions.
 
-      <br><br>
-      The following properties changed types:
-      <ol>
+    <br><br>
+    The following properties changed types:
+    <ol>
         <li>Version: Version (V2, V3, V4) <i>(is now of enum type from float)</i></li>
         <li>BirthDay: DateTime? <i>(is now a nullable DateTime object from a DateTime object)</i></li>
-      </ol>
+    </ol>
 
-      The following properties were added:
-      <ol>        
+    The following properties were added:
+    <ol>
         <li>Revision: DateTime?</li>
         <li>Geo: Geo
-          <ul>            
-            <li>Longitude: double</li>
-            <li>Latitude: double</li>
-          </ul>
+            <ul>
+                <li>Longitude: double</li>
+                <li>Latitude: double</li>
+            </ul>
         </li>
         <li>XSkypePstnNumber: string</li>
         <li>XSkypeDisplayName: string</li>
-      </ol>
+    </ol>
     </p>
 
     <h4>Library Version 2.1.0</h4>
     <p>
-      With the release of version 2.1.0 of this library, support has been added for writing of <code>vCard</code> objects to <i>vcf</i> files. It supports writing one file and of writing a <code>vCardCollection</code> to a file. To make use of the writing features of the library, see some example code below.
-      <pre>
+        With the release of version 2.1.0 of this library, support has been added for writing of <code>vCard</code>
+        objects to <i>vcf</i> files. It supports writing one file and of writing a <code>vCardCollection</code> to a
+        file. To make use of the writing features of the library, see some example code below.
+    <pre>
         <code class="language-csharp">
           vCard vcard = new vCard();
           //add some properties
@@ -228,109 +248,112 @@
 
     <h4>Library Version 2.0.0 Additional Properties</h4>
     <ol>
-      <li>PhoneNumbers: PhoneNumberCollection
-        <ul>
-          <li>Type: PhoneNumberType (None, BBS, Modem, Car, ISDN)</li>
-        </ul>
-      </li>
-      <li>EmailAddresses: EmailAddressCollection
-        <ul>
-          <li>Type: EmailAddressType (None)</li>
-        </ul>
-      </li>
-      <li>Addresses: AddressCollection
-        <ul>
-          <li>Type: AddressType (None, Domestic, Postal, Parcel, International)</li>
-        </ul>
-      </li>
-      <li>TimeZone: string</li>
+        <li>PhoneNumbers: PhoneNumberCollection
+            <ul>
+                <li>Type: PhoneNumberType (None, BBS, Modem, Car, ISDN)</li>
+            </ul>
+        </li>
+        <li>EmailAddresses: EmailAddressCollection
+            <ul>
+                <li>Type: EmailAddressType (None)</li>
+            </ul>
+        </li>
+        <li>Addresses: AddressCollection
+            <ul>
+                <li>Type: AddressType (None, Domestic, Postal, Parcel, International)</li>
+            </ul>
+        </li>
+        <li>TimeZone: string</li>
     </ol>
     <br/>
 
     <h4>Library Version 1.1.3 Additional Properties</h4>
     <ol>
-      <li>Pictures: PhotoCollection      <i>Support has been added for JPEG and GIF image URLs and for JPEG images. Support for other formats coming soon.</i>
-        <ul>
-          <li>Picture: Bitmap</li>
-          <li>Type: PhotoType (Image, URL)</li>
-          <li>Encoding: PhotoEncoding (JPEG, GIF)</li>
-          <li>PhotoURL: string</li>
-        </ul>
-      </li>
-      <li>Gender: GenderType (Male, Female, Other, None) <i>None is the default if no gender specified</i></li>
+        <li>Pictures: PhotoCollection <i>Support has been added for JPEG and GIF image URLs and for JPEG images. Support
+            for other formats coming soon.</i>
+            <ul>
+                <li>Picture: Bitmap</li>
+                <li>Type: PhotoType (Image, URL)</li>
+                <li>Encoding: PhotoEncoding (JPEG, GIF)</li>
+                <li>PhotoURL: string</li>
+            </ul>
+        </li>
+        <li>Gender: GenderType (Male, Female, Other, None) <i>None is the default if no gender specified</i></li>
     </ol>
     <br/>
 
     <h4>Library Version 1.1.2 Properties</h4>
     <ol>
-      <li>Version: float (2.1, 3.0 or 4.0)</li>
-      <li>Surname: string</li>
-      <li>Firstname: string</li>
-      <li>Othernames: string</li>
-      <li>FormattedName: string</li>
-      <li>PhoneNumbers: PhoneNumberCollection
-        <ul>
-          <li>PhoneNumber: string</li>
-          <li>Type: PhoneNumberType (Work, Cell, Home, Voice, Text, Fax, Pager, Video, TextPhone, MainNumber)</li>
-        </ul>
-      </li>
-      <li>EmailAddresses: EmailAddressCollection
-        <ul>
-          <li>EmailAddress: MailAddress</li>
-          <li>Type: EmailAddressType (Work, Internet, Home)</li>
-        </ul>
-      </li>
-      <li>URL: string</li>
-      <li>Organization: string</li>
-      <li>Title: string</li>
-      <li>NickName: string</li>
-      <li>Language: string</li>
-      <li>BirthPlace: string</li>
-      <li>DeathPlace: string</li>
-      <li>Birthday: DateTime</li>
-      <li>EmailAddresses: EmailAddressCollection
-        <ul>
-          <li>EmailAddress: MailAddress</li>
-          <li>Type: EmailAddressType (Work, Internet, Home)<li>
-        </ul>
-      </li>
-      <li>Interests: InterestCollection
-        <ul>
-          <li>Activity: string</li>
-          <li>Level: Level (High, Medium, Low)</li>
-        </ul>
-      </li>
-      <li>Hobbies: HobbyCollection
-        <ul>
-          <li>Activity: string</li>
-          <li>Level: Level (High, Medium, Low)</li>
-        </ul>
-      </li>
-      <li>Gender: GenderType (Male, Female, Other)</li>
-      <li>Kind: ContactType (Individual, Group, Organization, Location, Application, Device)</li>
-      <li>Expertises: ExpertiseCollection
-        <ul>
-          <li>Area: string</li>
-          <li>Level: Level (High, Medium, Low)</li>
-        </ul>
-      </li>
-      <li>Addresses: AddressCollection
-        <ul>
-          <li>Address: string</li>
-          <li>Type: AddressType (Work, Home)</li>
-        </ul>
-      </li>
-      <li>Pictures: PhotoCollection        <strong><i>Warning: This version of this library will always be an empty collection.</i></strong>
-        <ul>
-          <li>Picture: Bitmap</li>
-        </ul>
-      </li>
+        <li>Version: float (2.1, 3.0 or 4.0)</li>
+        <li>Surname: string</li>
+        <li>Firstname: string</li>
+        <li>Othernames: string</li>
+        <li>FormattedName: string</li>
+        <li>PhoneNumbers: PhoneNumberCollection
+            <ul>
+                <li>PhoneNumber: string</li>
+                <li>Type: PhoneNumberType (Work, Cell, Home, Voice, Text, Fax, Pager, Video, TextPhone, MainNumber)</li>
+            </ul>
+        </li>
+        <li>EmailAddresses: EmailAddressCollection
+            <ul>
+                <li>EmailAddress: MailAddress</li>
+                <li>Type: EmailAddressType (Work, Internet, Home)</li>
+            </ul>
+        </li>
+        <li>URL: string</li>
+        <li>Organization: string</li>
+        <li>Title: string</li>
+        <li>NickName: string</li>
+        <li>Language: string</li>
+        <li>BirthPlace: string</li>
+        <li>DeathPlace: string</li>
+        <li>Birthday: DateTime</li>
+        <li>EmailAddresses: EmailAddressCollection
+            <ul>
+                <li>EmailAddress: MailAddress</li>
+                <li>Type: EmailAddressType (Work, Internet, Home)
+                <li>
+            </ul>
+        </li>
+        <li>Interests: InterestCollection
+            <ul>
+                <li>Activity: string</li>
+                <li>Level: Level (High, Medium, Low)</li>
+            </ul>
+        </li>
+        <li>Hobbies: HobbyCollection
+            <ul>
+                <li>Activity: string</li>
+                <li>Level: Level (High, Medium, Low)</li>
+            </ul>
+        </li>
+        <li>Gender: GenderType (Male, Female, Other)</li>
+        <li>Kind: ContactType (Individual, Group, Organization, Location, Application, Device)</li>
+        <li>Expertises: ExpertiseCollection
+            <ul>
+                <li>Area: string</li>
+                <li>Level: Level (High, Medium, Low)</li>
+            </ul>
+        </li>
+        <li>Addresses: AddressCollection
+            <ul>
+                <li>Address: string</li>
+                <li>Type: AddressType (Work, Home)</li>
+            </ul>
+        </li>
+        <li>Pictures: PhotoCollection <strong><i>Warning: This version of this library will always be an empty
+            collection.</i></strong>
+            <ul>
+                <li>Picture: Bitmap</li>
+            </ul>
+        </li>
     </ol>
-  </div>
+</div>
 
-  <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="scripts/site.js"></script>
+<!-- Scripts
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
