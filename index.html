@@ -75,7 +75,6 @@
         <code class="language-csharp">
           using vCardLib;
           using vCardLib.Deserializers;
-          using vCardLib.Collections;
         </code>
       </pre>
     <br>
@@ -84,20 +83,27 @@
     <pre>
         <code class="language-csharp">
           string filePath = //path to vcf or vcard file;
-          vCardCollection contacts = Deserializer.FromFile(filePath);
+          var contacts = Deserializer.FromFile(filePath);
         </code>
       </pre>
-    Or pass a StreamReader object to it:
+    Or pass a Stream object to it:
     <pre>
         <code class="language-csharp">
-          StreamReader sr = //generate a streamreader somehow;
-          vCardCollection contacts = Deserializer.FromStreamReader(sr);
+          var stream = //generate a stream somehow;
+          var contacts = Deserializer.FromStream(stream);
         </code>
       </pre>
+      Or pass a string to it:
+      <pre>
+          <code class="language-csharp">
+            var string = //generate a stream somehow;
+            var contacts = Deserializer.FromString(string);
+          </code>
+        </pre>
     Iterate over the collection and pick the vCard objects:
     <pre>
         <code class="language-csharp">
-          foreach(vCard contact in contacts)
+          foreach(var contact in contacts)
           {
             Console.WriteLine(contact.FormattedName);
           }
@@ -114,7 +120,6 @@
         <code class="language-csharp">
           using vCardLib;
           using vCardLib.Serializers;
-          using vCardLib.Collections;
           using vCardLib.Helpers;
         </code>
       </pre>
@@ -127,188 +132,31 @@
         <code class="language-csharp">
           string filePath = //path to vcf or vcard file that you want created or overwritten;
           vCard vcard = //create one somehow;
-          bool status = Serializer.Serialize(vcard, filePath, Version.V3, WriteOptions.Overwrite);
-          //check if the serialization was successful
-          if (status)
-          {
-            //successful
-          }
-          else
-          {
-            //unsuccesful
-          }
+          string cardDetails = Serializer.Serialize(vcard);
         </code>
       </pre>
-    Or serialize a <code>vCardCollection</code> object:
+    Or serialize a <code>Collection of contacts</code> object:
     <pre>
         <code class="language-csharp">
-          string filePath = //path to vcf or vcard file that you want created or overwritten;
-          vCardCollection collection = new vCardCollection();
+          var contacts = new List&lt;vCard&gt;();
           //insert vcards into the collection
-          bool status = Serializer.Serialize(collection, filePath, Version.V2, WriteOptions.ThrowError);
-          //check if the serialization was successful
-          if (status)
-          {
-            //successful
-          }
-          else
-          {
-            //unsuccesful
-          }
+          string serializedContacts = Serializer.Serialize(contacts);
         </code>
       </pre>
     </p>
 
     <div class="header">
-        <h2>Library Version Changelogs</h2>
+        <h2>Library Properties</h2>
     </div>
-
-    <h4>Library Version 2.2.6</h4>
-    <p>
-        v2.2.6 was written with bug fixes in mind. Support has been added for cultures that use  commans (,) as decimal separators instead of periods (.). Versioning has been updated to match semantic versioning standards. A few features were added as well.
+    
     <ol>
-        <li>CustomFields: List&lt;KeyValuePair&lt;string, string&gt;&gt;</li>
-    </ol>
-    </p>
-
-    <h4>Library Version 2.2.1</h4>
-    <p>
-        v2.2.1 was written with performance and resource usage a major priority. String handling was particularly dealt
-        with in the most resource safe way. Also one new property was added, <code>NOTE</code> property is now
-        supported.
-    <ol>
-        <li>Note: string</li>
-    </ol>
-    </p>
-
-    <h4>Library Version 2.2.0</h4>
-    <p>
-        With the release of version 2.2.0 of this library, few properties were added and some breaking changes were
-        introduced. The following properties were removed:
-    <ol>
-        <li>Surname: string</li>
-        <li>Middlename: string</li>
-        <li>Firstname: string</li>
-    </ol>
-    To be replaced with these in order to keep conformance with the RFC spec:
-    <ol>
+        <li>Version: float (2.1, 3.0 or 4.0)</li>
         <li>FamilyName: string</li>
         <li>GivenName: string</li>
         <li>MiddleName: string</li>
         <li>Prefix: string</li>
         <li>Suffix: string</li>
-    </ol>
-    The <code>URL</code> property was renamed to <code>Url</code> to conform with C# naming conventions.
-
-    <br><br>
-    The following properties changed types:
-    <ol>
-        <li>Version: Version (V2, V3, V4) <i>(is now of enum type from float)</i></li>
-        <li>BirthDay: DateTime? <i>(is now a nullable DateTime object from a DateTime object)</i></li>
-    </ol>
-
-    The following properties were added:
-    <ol>
-        <li>Revision: DateTime?</li>
-        <li>Geo: Geo
-            <ul>
-                <li>Longitude: double</li>
-                <li>Latitude: double</li>
-            </ul>
-        </li>
-        <li>XSkypePstnNumber: string</li>
-        <li>XSkypeDisplayName: string</li>
-    </ol>
-    </p>
-
-    <h4>Library Version 2.1.0</h4>
-    <p>
-        With the release of version 2.1.0 of this library, support has been added for writing of <code>vCard</code>
-        objects to <i>vcf</i> files. It supports writing one file and of writing a <code>vCardCollection</code> to a
-        file. To make use of the writing features of the library, see some example code below.
-    <pre>
-        <code class="language-csharp">
-          vCard vcard = new vCard();
-          //add some properties
-          vcard.Version = 2.1F;
-          vcard.Surname = "John";
-          vcard.Firstname = "Smith";
-          PhoneNumber number  = new PhoneNumber();
-          number.Number = "09889302222";
-          number.Type = PhoneNumberType.Cell;
-          vcard.PhoneNumbers.Add(number);
-
-          string filePath = "path-to-vcf-file";
-          //To write a single vcard in its default version
-          vcard.Save(filePath, [Optional] WriteOption.ThrowError);
-          //To write a single vcard in another version
-          vcard.Save(filePath, 3.0F, [Optional] WriteOptions.Overwrite);
-
-          vCardCollection collection = new vCardCollection();
-          collection.Add(vcard);
-          //To write a vcard collection in their default versions
-          collection.Save(filePath, [Optional] WriteOption.ThrowError);
-          //To write a vcard collection in another version
-          collection.Save(filePath, 3.0F, [Optional] WriteOptions.Overwrite);
-        </code>
-      </pre>
-    </p>
-
-    <h4>Library Version 2.0.0 Additional Properties</h4>
-    <ol>
-        <li>PhoneNumbers: PhoneNumberCollection
-            <ul>
-                <li>Type: PhoneNumberType (None, BBS, Modem, Car, ISDN)</li>
-            </ul>
-        </li>
-        <li>EmailAddresses: EmailAddressCollection
-            <ul>
-                <li>Type: EmailAddressType (None)</li>
-            </ul>
-        </li>
-        <li>Addresses: AddressCollection
-            <ul>
-                <li>Type: AddressType (None, Domestic, Postal, Parcel, International)</li>
-            </ul>
-        </li>
-        <li>TimeZone: string</li>
-    </ol>
-    <br/>
-
-    <h4>Library Version 1.1.3 Additional Properties</h4>
-    <ol>
-        <li>Pictures: PhotoCollection <i>Support has been added for JPEG and GIF image URLs and for JPEG images. Support
-            for other formats coming soon.</i>
-            <ul>
-                <li>Picture: Bitmap</li>
-                <li>Type: PhotoType (Image, URL)</li>
-                <li>Encoding: PhotoEncoding (JPEG, GIF)</li>
-                <li>PhotoURL: string</li>
-            </ul>
-        </li>
-        <li>Gender: GenderType (Male, Female, Other, None) <i>None is the default if no gender specified</i></li>
-    </ol>
-    <br/>
-
-    <h4>Library Version 1.1.2 Properties</h4>
-    <ol>
-        <li>Version: float (2.1, 3.0 or 4.0)</li>
-        <li>Surname: string</li>
-        <li>Firstname: string</li>
-        <li>Othernames: string</li>
         <li>FormattedName: string</li>
-        <li>PhoneNumbers: PhoneNumberCollection
-            <ul>
-                <li>PhoneNumber: string</li>
-                <li>Type: PhoneNumberType (Work, Cell, Home, Voice, Text, Fax, Pager, Video, TextPhone, MainNumber)</li>
-            </ul>
-        </li>
-        <li>EmailAddresses: EmailAddressCollection
-            <ul>
-                <li>EmailAddress: MailAddress</li>
-                <li>Type: EmailAddressType (Work, Internet, Home)</li>
-            </ul>
-        </li>
         <li>URL: string</li>
         <li>Organization: string</li>
         <li>Title: string</li>
@@ -317,45 +165,60 @@
         <li>BirthPlace: string</li>
         <li>DeathPlace: string</li>
         <li>Birthday: DateTime</li>
-        <li>EmailAddresses: EmailAddressCollection
-            <ul>
-                <li>EmailAddress: MailAddress</li>
-                <li>Type: EmailAddressType (Work, Internet, Home)
-                <li>
-            </ul>
-        </li>
-        <li>Interests: InterestCollection
+        <li>Interests: List&lt;Interest&gt;
             <ul>
                 <li>Activity: string</li>
                 <li>Level: Level (High, Medium, Low)</li>
             </ul>
         </li>
-        <li>Hobbies: HobbyCollection
+        <li>Hobbies: List&lt;Hobby&gt;
             <ul>
                 <li>Activity: string</li>
                 <li>Level: Level (High, Medium, Low)</li>
             </ul>
         </li>
-        <li>Gender: GenderType (Male, Female, Other)</li>
         <li>Kind: ContactType (Individual, Group, Organization, Location, Application, Device)</li>
-        <li>Expertises: ExpertiseCollection
+        <li>Expertises: List&lt;Expertise&gt;
             <ul>
                 <li>Area: string</li>
                 <li>Level: Level (High, Medium, Low)</li>
             </ul>
         </li>
-        <li>Addresses: AddressCollection
+        <li>Pictures: List&lt;Photo&gt; <i>Support has been added for JPEG and GIF image URLs and for JPEG images. Support
+            for other formats coming soon.</i>
             <ul>
-                <li>Address: string</li>
-                <li>Type: AddressType (Work, Home)</li>
+                <li>Picture: byte[]</li>
+                <li>Type: PhotoType (Image, URL)</li>
+                <li>Encoding: PhotoEncoding (JPEG, GIF)</li>
+                <li>PhotoURL: string</li>
             </ul>
         </li>
-        <li>Pictures: PhotoCollection <strong><i>Warning: This version of this library will always be an empty
-            collection.</i></strong>
+        <li>Gender: GenderType (Male, Female, Other, None) <i>None is the default if no gender specified</i></li>
+        <li>PhoneNumbers: List&lt;PhoneNumber&gt;
             <ul>
-                <li>Picture: Bitmap</li>
+                <li>Type: PhoneNumberType (None, BBS, Modem, Car, ISDN)</li>
             </ul>
         </li>
+        <li>EmailAddresses: List&lt;EmailAddress&gt;
+            <ul>
+                <li>Type: EmailAddressType (None)</li>
+            </ul>
+        </li>
+        <li>Addresses: List&lt;Address&gt;
+            <ul>
+                <li>Type: AddressType (None, Domestic, Postal, Parcel, International)</li>
+            </ul>
+        </li>
+        <li>TimeZone: string</li>
+        <li>Revision: DateTime?</li>
+        <li>Geo: Geo
+            <ul>
+                <li>Longitude: double</li>
+                <li>Latitude: double</li>
+            </ul>
+        </li>
+        <li>Note: string</li>
+        <li>CustomFields: List&lt;KeyValuePair&lt;string, string&gt;&gt;</li>
     </ol>
 </div>
 
