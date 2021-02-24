@@ -530,21 +530,8 @@ namespace vCardLib.Deserializers
                             .Replace("ENCODING=b", "")
                             .Trim(';', ':')
                             .Trim();
-                        try
-                        {
-                            var photo = new Photo
-                            {
-                                Encoding = PhotoEncoding.JPEG,
-                                Picture = Convert.FromBase64String(photoString),
-                                Type = PhotoType.Image
-                            };
-                            photoCollection.Add(photo);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                            //TODO: send error to logger
-                        }
+
+                        ParseBase64Photo(photoString, photoCollection);
                     }
                 }
                 else if (photoString.Contains("TYPE=GIF") || photoString.Contains("TYPE=gif"))
@@ -568,9 +555,37 @@ namespace vCardLib.Deserializers
                         photoCollection.Add(photo);
                     }
                 }
+                else if (photoString.Contains("BASE64:"))
+                {
+                    photoString = photoString
+                        .Replace("BASE64", "")
+                        .Trim(':', ';')
+                        .Trim();
+
+                    ParseBase64Photo(photoString, photoCollection);
+                }
             }
 
             return photoCollection;
+        }
+
+        private void ParseBase64Photo(string base64, List<Photo> photoCollection)
+        {
+            try
+            {
+                var photo = new Photo
+                {
+                    Encoding = PhotoEncoding.JPEG,
+                    Picture = Convert.FromBase64String(base64),
+                    Type = PhotoType.Image
+                };
+
+                photoCollection.Add(photo);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
