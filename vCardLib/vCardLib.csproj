@@ -5,7 +5,7 @@
 - improve serialization</PackageReleaseNotes>
         <Authors>Bolorunduro Winner-Timothy</Authors>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageId>vCardLib.dll</PackageId>
+        <PackageId>Octadesk.vCardLib</PackageId>
         <Description>vCardLib is a .NET library to help developers read either single or multiple contacts from a single vcf file or StreamReader.</Description>
         <PackageIconUrl>http://www.iconarchive.com/download/i48687/custom-icon-design/pretty-office-2/contact.ico</PackageIconUrl>
         <PackageProjectUrl>https://bolorundurowb.github.io/vCardLib/</PackageProjectUrl>
